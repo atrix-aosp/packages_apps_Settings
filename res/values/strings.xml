@@ -1334,6 +1334,14 @@
     <!-- SD card & phone storage settings item title that will result in the phone mounting the SD card. -->
     <string name="sd_mount_summary" product="default">Mount the SD card</string>
 
+    <!-- Setting to use internal storage as SD card -->
+    <string name="switch_storage_title">Use internal storage</string>
+    <string name="switch_storage_summary_on">Using expanded internal storage for apps and media</string>
+    <string name="switch_storage_summary_off">Using removable card for apps and media</string>
+    <string name="switch_storage_unavailable">This device doesn\'t have expanded internal storage</string>
+    <!-- Storage switch reboot informative text   [CHAR LIMIT=NONE] -->
+    <string name="switch_storage_inform_text">Please reboot for changes to take effect.</string>
+
     <!-- SD card & phone storage settings item title that will result in the phone formatting the USB storage.   [CHAR LIMIT=25] -->
     <string name="sd_format" product="nosdcard">Erase USB storage</string>
     <!-- SD card & phone storage settings item title that will result in the phone formatting the SD card.   [CHAR LIMIT=25] -->

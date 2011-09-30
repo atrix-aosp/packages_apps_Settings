@@ -32,6 +32,10 @@
         <Preference android:key="memory_sd_format"
             android:title="@string/sd_format"
             android:summary="@string/sd_format_summary"/>
+        <CheckBoxPreference android:key="switch_storage"
+            android:title="@string/switch_storage_title"
+            android:summaryOn="@string/switch_storage_summary_on"
+            android:summaryOff="@string/switch_storage_summary_off" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/internal_memory">

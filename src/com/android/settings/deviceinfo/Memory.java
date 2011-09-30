@@ -36,7 +36,9 @@ import android.os.ServiceManager;
 import android.os.StatFs;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageEventListener;
+import android.os.SystemProperties;
 import android.preference.Preference;
+import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
@@ -63,6 +65,8 @@ public class Memory extends PreferenceActivity implements OnCancelListener {
 
     private static final String MEMORY_SD_GROUP = "memory_sd";
 
+    private static final String SWITCH_STORAGE = "switch_storage";
+
     private static final int DLG_CONFIRM_UNMOUNT = 1;
     private static final int DLG_ERROR_UNMOUNT = 2;
 
@@ -73,6 +77,8 @@ public class Memory extends PreferenceActivity implements OnCancelListener {
     private Preference mSdMountToggle;
     private Preference mSdFormat;
     private PreferenceGroup mSdMountPreferenceGroup;
+
+    private CheckBoxPreference mSwitchStorage;
 
     boolean mSdMountToggleAdded = true;
     
@@ -97,6 +103,14 @@ public class Memory extends PreferenceActivity implements OnCancelListener {
         mSdAvail = findPreference(MEMORY_SD_AVAIL);
         mSdMountToggle = findPreference(MEMORY_SD_MOUNT_TOGGLE);
         mSdFormat = findPreference(MEMORY_SD_FORMAT);
+
+        mSwitchStorage = (CheckBoxPreference) findPreference(SWITCH_STORAGE);
+        mSwitchStorage.setChecked((SystemProperties.getInt("persist.sys.vold.switchexternal", 0) == 1));
+
+        if (SystemProperties.get("ro.vold.switchablepair", "").equals("")) {
+            mSwitchStorage.setSummary(R.string.switch_storage_unavailable);
+            mSwitchStorage.setEnabled(false);
+        }
 
         mSdMountPreferenceGroup = (PreferenceGroup)findPreference(MEMORY_SD_GROUP);
     }
@@ -164,6 +178,12 @@ public class Memory extends PreferenceActivity implements OnCancelListener {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setClass(this, com.android.settings.MediaFormat.class);
             startActivity(intent);
+            return true;
+        } else if (preference == mSwitchStorage) {
+            SystemProperties.set("persist.sys.vold.switchexternal",
+                mSwitchStorage.isChecked() ? "1" : "0");
+            // Present a toast here
+            Toast.makeText(this, R.string.switch_storage_inform_text, Toast.LENGTH_SHORT).show();
             return true;
         }
         
